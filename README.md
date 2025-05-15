@@ -34,18 +34,19 @@ WeatherApp adalah aplikasi web yang memungkinkan pengguna melihat informasi cuac
 
 ## 🗂️ Struktur Proyek
 
-├── app.py # File utama aplikasi Flask
-├── config.py # Konfigurasi aplikasi (SECRET_KEY, API URL)
-├── .env # Menyimpan variabel sensitif (API key, secret key)
-├── requirements.txt # Daftar dependensi Python
-├── templates/
-│ ├── base.html
-│ ├── index.html
-│ ├── login.html
-│ ├── register.html
-│ └── dashboard.html
-└── static/
-└── js/
+<br>
+├── app.py # File utama aplikasi Flask<br>
+├── config.py # Konfigurasi aplikasi (SECRET_KEY, API URL)<br>
+├── .env # Menyimpan variabel sensitif (API key, secret key)<br>
+├── requirements.txt # Daftar dependensi Python<br>
+├── templates/<br>
+│ ├── base.html<br>
+│ ├── index.html<br>
+│ ├── login.html<br>
+│ ├── register.html<br>
+│ └── dashboard.html<br>
+└── static/<br>
+└── js/<br>
 └── script.js # JavaScript untuk UI interaktif
 
 ## ⚙️ Cara Kerja Aplikasi
