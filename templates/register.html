@@ -1,0 +1,132 @@
+{% extends 'base.html' %} {% block title %}WeatherApp - Registrasi{% endblock %}
+{% block content %}
+<div class="flex justify-center">
+  <div class="bg-white rounded-lg shadow-xl overflow-hidden max-w-md w-full">
+    <div
+      class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 text-center"
+    >
+      <h1 class="text-2xl font-bold">
+        <i class="fas fa-user-plus mr-2"></i> Registrasi
+      </h1>
+      <p class="text-sm mt-1">Buat akun baru di WeatherApp</p>
+    </div>
+
+    <div class="p-6">
+      <form method="POST" action="{{ url_for('register') }}">
+        <div class="mb-4">
+          <label for="username" class="block text-gray-700 font-medium mb-2"
+            >Username</label
+          >
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
+            >
+              <i class="fas fa-user"></i>
+            </span>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Pilih username Anda"
+            />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="block text-gray-700 font-medium mb-2"
+            >Password</label
+          >
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
+            >
+              <i class="fas fa-lock"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Buat password yang kuat"
+            />
+          </div>
+          <p class="text-xs text-gray-500 mt-1">
+            Minimal 8 karakter dengan kombinasi huruf, angka, dan simbol
+          </p>
+        </div>
+
+        <div class="mb-6">
+          <label for="api_key" class="block text-gray-700 font-medium mb-2"
+            >OpenWeather API Key</label
+          >
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
+            >
+              <i class="fas fa-key"></i>
+            </span>
+            <input
+              type="text"
+              id="api_key"
+              name="api_key"
+              required
+              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Masukkan OpenWeather API Key Anda"
+            />
+          </div>
+          <p class="text-xs text-gray-500 mt-1">
+            Dapatkan API key dari
+            <a
+              href="https://openweathermap.org/api"
+              class="text-blue-600 hover:underline"
+              target="_blank"
+              >OpenWeatherMap</a
+            >
+          </p>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              required
+              class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <label for="terms" class="ml-2 block text-sm text-gray-700">
+              Saya menyetujui
+              <a href="#" class="text-blue-600 hover:underline"
+                >Syarat dan Ketentuan</a
+              >
+              serta
+              <a href="#" class="text-blue-600 hover:underline"
+                >Kebijakan Privasi</a
+              >
+            </label>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+        >
+          Daftar
+        </button>
+      </form>
+
+      <div class="mt-6 text-center">
+        <p class="text-gray-600">
+          Sudah punya akun?
+          <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline"
+            >Login di sini</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

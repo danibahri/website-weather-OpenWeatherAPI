@@ -1,0 +1,134 @@
+{% extends 'base.html' %} {% block title %}WeatherApp - Beranda{% endblock %} {%
+block content %}
+<div class="flex flex-col items-center">
+  <div class="bg-white rounded-lg shadow-xl overflow-hidden max-w-4xl w-full">
+    <div
+      class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-10 text-center"
+    >
+      <h1 class="text-4xl font-bold mb-4">
+        <i class="fas fa-cloud-sun mr-2"></i> WeatherApp
+      </h1>
+      <p class="text-xl">
+        Informasi cuaca lengkap dan akurat dari seluruh dunia
+      </p>
+    </div>
+
+    <div class="p-8">
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="text-2xl font-bold mb-4 text-gray-800">
+            <i class="fas fa-info-circle text-blue-600 mr-2"></i> Tentang
+            Aplikasi
+          </h2>
+          <p class="text-gray-600 mb-4">
+            WeatherApp menyediakan informasi cuaca terkini dengan data yang
+            akurat dari OpenWeatherMap API. Dapatkan perkiraan cuaca, suhu,
+            kelembaban, kecepatan angin, dan banyak lagi untuk lokasi di seluruh
+            dunia.
+          </p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2 mb-6">
+            <li>Informasi cuaca real-time</li>
+            <li>Data dari kota-kota di seluruh dunia</li>
+            <li>Antarmuka yang intuitif dan mudah digunakan</li>
+            <li>Pengalaman yang aman dan terlindungi</li>
+          </ul>
+
+          {% if 'username' not in session %}
+          <div class="flex space-x-4 mt-6">
+            <a
+              href="{{ url_for('register') }}"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+            >
+              Daftar Sekarang
+            </a>
+            <a
+              href="{{ url_for('login') }}"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg transition-colors"
+            >
+              Login
+            </a>
+          </div>
+          {% else %}
+          <a
+            href="{{ url_for('dashboard') }}"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors inline-block"
+          >
+            Lihat Dashboard
+          </a>
+          {% endif %}
+        </div>
+
+        <div class="flex justify-center items-center">
+          <div class="bg-blue-50 p-6 rounded-lg shadow-inner w-full">
+            <div class="text-center mb-4">
+              <i class="fas fa-cloud-sun-rain text-6xl text-blue-600"></i>
+            </div>
+            <div class="text-center">
+              <p class="text-sm text-gray-500 mb-2">Contoh Data Cuaca</p>
+              <h3 class="text-2xl font-bold text-gray-800">Jakarta</h3>
+              <p class="text-4xl font-bold text-blue-600 mb-2">28°C</p>
+              <p class="text-gray-600">Cerah Berawan</p>
+              <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                  <p class="text-gray-500">Kelembaban</p>
+                  <p class="font-semibold">70%</p>
+                </div>
+                <div>
+                  <p class="text-gray-500">Angin</p>
+                  <p class="font-semibold">10 km/h</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 border-t pt-8">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">
+          <i class="fas fa-cogs text-blue-600 mr-2"></i> Fitur Utama
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <div class="text-blue-600 text-3xl mb-4">
+              <i class="fas fa-search-location"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-gray-800">
+              Pencarian Lokasi
+            </h3>
+            <p class="text-gray-600">
+              Cari informasi cuaca untuk kota manapun di seluruh dunia dengan
+              mudah.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <div class="text-blue-600 text-3xl mb-4">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-gray-800">
+              Data Terperinci
+            </h3>
+            <p class="text-gray-600">
+              Akses informasi cuaca lengkap termasuk suhu, kelembaban, tekanan,
+              dan angin.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <div class="text-blue-600 text-3xl mb-4">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-gray-800">
+              Keamanan Tinggi
+            </h3>
+            <p class="text-gray-600">
+              Implementasi keamanan server-side dan validasi respons API untuk
+              data yang aman.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,248 @@
+{% extends 'base.html' %} {% block title %}WeatherApp - Dashboard{% endblock %}
+{% block extra_head %}
+<style>
+  .weather-card {
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  .weather-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .weather-clear {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
+      url("https://images.unsplash.com/photo-1514454529242-9e4677563e7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
+  }
+
+  .weather-clouds {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
+      url("https://images.unsplash.com/photo-1534088568595-a066f410cd1b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80");
+  }
+
+  .weather-rain {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
+      url("https://images.unsplash.com/photo-1519692933481-e162a57d6721?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
+  }
+
+  .weather-snow {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
+      url("https://images.unsplash.com/photo-1491002052546-bf38f186af56?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
+  }
+
+  .weather-default {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
+      url("https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80");
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">
+    <i class="fas fa-tachometer-alt text-blue-600 mr-2"></i> Dashboard Cuaca
+  </h1>
+
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <form
+      method="POST"
+      action="{{ url_for('dashboard') }}"
+      class="flex flex-col md:flex-row gap-4"
+    >
+      <div class="flex-grow relative">
+        <span
+          class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
+        >
+          <i class="fas fa-search"></i>
+        </span>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          required
+          class="w-full border border-gray-300 rounded-lg py-3 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Masukkan nama kota (misalnya: Jakarta, London, Tokyo)"
+        />
+      </div>
+      <button
+        type="submit"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+      >
+        Cari
+      </button>
+    </form>
+  </div>
+
+  {% if error %}
+  <div
+    class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6"
+    role="alert"
+  >
+    <p><i class="fas fa-exclamation-circle mr-2"></i> {{ error }}</p>
+  </div>
+  {% endif %} {% if weather %}
+  <!-- Hasil Cuaca -->
+  {% set weather_class = { 'Clear': 'weather-clear', 'Clouds': 'weather-clouds',
+  'Rain': 'weather-rain', 'Drizzle': 'weather-rain', 'Thunderstorm':
+  'weather-rain', 'Snow': 'weather-snow' } %} {% set bg_class =
+  weather_class.get(weather.weather[0].main, 'weather-default') %}
+
+  <div
+    class="weather-card {{ bg_class }} rounded-xl shadow-xl overflow-hidden mb-6"
+  >
+    <div class="p-6 text-white">
+      <div class="flex justify-between items-start">
+        <div>
+          <h2 class="text-3xl font-bold">
+            {{ weather.name }}, {{ weather.sys.country }}
+          </h2>
+          <p class="text-lg opacity-90">{{ weather.current_time }}</p>
+        </div>
+        <div class="text-right">
+          <div class="text-5xl font-bold">{{ weather.main.temp }}°C</div>
+          <p class="text-xl">Terasa seperti {{ weather.main.feels_like }}°C</p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex items-center">
+        <div class="mr-4">
+          <img
+            src="https://openweathermap.org/img/wn/{{ weather.weather[0].icon }}@2x.png"
+            alt="{{ weather.weather[0].description }}"
+            class="w-20 h-20"
+          />
+        </div>
+        <div>
+          <p class="text-2xl font-semibold capitalize">
+            {{ weather.weather[0].description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Cuaca -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="bg-blue-600 text-white p-4">
+        <h3 class="text-xl font-bold">
+          <i class="fas fa-info-circle mr-2"></i> Detail Cuaca
+        </h3>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="border-r border-b border-gray-100 p-3">
+            <p class="text-gray-500 text-sm">Kelembaban</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-tint text-blue-500 mr-2"></i> {{
+              weather.main.humidity }}%
+            </p>
+          </div>
+          <div class="border-b border-gray-100 p-3">
+            <p class="text-gray-500 text-sm">Tekanan</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-compress-alt text-blue-500 mr-2"></i> {{
+              weather.main.pressure }} hPa
+            </p>
+          </div>
+          <div class="border-r border-gray-100 p-3">
+            <p class="text-gray-500 text-sm">Kecepatan Angin</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-wind text-blue-500 mr-2"></i> {{
+              weather.wind.speed }} m/s
+            </p>
+          </div>
+          <div class="p-3">
+            <p class="text-gray-500 text-sm">Arah Angin</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-compass text-blue-500 mr-2"></i> {{
+              weather.wind.deg }}°
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel Kanan - Informasi Tambahan -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="bg-blue-600 text-white p-4">
+        <h3 class="text-xl font-bold">
+          <i class="fas fa-sun mr-2"></i> Informasi Tambahan
+        </h3>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="border-r border-b border-gray-100 p-3">
+            <p class="text-gray-500 text-sm">Matahari Terbit</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-sunrise text-yellow-500 mr-2"></i> {{
+              weather.sys.sunrise_formatted }}
+            </p>
+          </div>
+          <div class="border-b border-gray-100 p-3">
+            <p class="text-gray-500 text-sm">Matahari Terbenam</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-sunset text-orange-500 mr-2"></i> {{
+              weather.sys.sunset_formatted }}
+            </p>
+          </div>
+          <div class="border-r border-gray-100 p-3">
+            <p class="text-gray-500 text-sm">Visibilitas</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-eye text-blue-500 mr-2"></i> {{
+              weather.visibility // 1000 }} km
+            </p>
+          </div>
+          <div class="p-3">
+            <p class="text-gray-500 text-sm">Awan</p>
+            <p class="font-semibold text-lg flex items-center">
+              <i class="fas fa-cloud text-blue-500 mr-2"></i> {{
+              weather.clouds.all }}%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel Keamanan API -->
+  <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+    <div class="bg-green-600 text-white p-4">
+      <h3 class="text-xl font-bold">
+        <i class="fas fa-shield-alt mr-2"></i> Keamanan API
+      </h3>
+    </div>
+    <div class="p-4">
+      <div
+        class="flex items-center bg-green-50 p-3 rounded-lg border border-green-100"
+      >
+        <div class="bg-green-100 p-2 rounded-full mr-4">
+          <i class="fas fa-check text-green-600 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-gray-700">
+            Respons API telah divalidasi dan aman untuk digunakan.
+          </p>
+          <p class="text-sm text-gray-500 mt-1">
+            Semua request menggunakan HTTPS dan diproses dengan aman di
+            server-side.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <!-- Panel informasi jika belum ada pencarian -->
+  <div
+    class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4"
+    role="alert"
+  >
+    <p class="font-bold">Informasi</p>
+    <p>Silakan masukkan nama kota untuk melihat informasi cuaca terkini.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {});
+</script>
+{% endblock %}
